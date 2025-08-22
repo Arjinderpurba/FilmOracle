@@ -7,24 +7,24 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { BGIMG, USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, seterrorMessage] = useState(null);
-  const Navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
-  // const name = useRef(null);
+  // const name = useRef(null); 
 
   const handleButtonClick = () => {
     // Validate Form Data
     const message = checkValidData(
+
       email.current.value,
       password.current.value,
       !isSignInForm ? name.current.value : null
@@ -37,6 +37,7 @@ const Login = () => {
       //SignUp logic
       createUserWithEmailAndPassword(
         auth,
+        // name.current.value,
         email.current.value,
         password.current.value
       )
@@ -45,8 +46,7 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://i.namu.wiki/i/roVsJIOXbX6rn_99QO9XPuvWI1HArqKewRKkfQlpdTDryx2iq00SlrLYtpTMsYQdSFzaxrVAKo0RDCPWsAJejvXRoDCtzrwe6w9Zjz3mXWX62-j3jsrUXzl4aJVvSQCFHz0-95O3PbxyBgN0WDWhyvVdf1_SeD3CDujs6ffxPVo.webp",
+            photoURL:USER_AVATAR,
           })
             .then(() => {
               // Profile updated!
@@ -59,7 +59,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              Navigate("/browse");
             })
             .catch((error) => {
               seterrorMessage(error.message);
@@ -74,14 +73,12 @@ const Login = () => {
       //signIn Logic
       signInWithEmailAndPassword(
         auth,
-        email.current.value,
+        email.current.value, 
         password.current.value
       )
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
-          Navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -99,7 +96,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/05e91faa-6f6d-4325-934e-5418dcc2567b/web/IN-en-20250630-TRIFECTA-perspective_159086b1-425f-435b-bcd5-1ed8039cdef9_large.jpg"
+          src={BGIMG}
           alt="bgimg"
         />
       </div>
@@ -113,22 +110,22 @@ const Login = () => {
         {!isSignInForm && (
           <input
             ref={name}
-            type="text"
+            type="name"
             placeholder="Full Name"
-            className="p-4 my-4 w-full bg-neutral-800 rounded-s"
+            className="p-4 my-4 w-full bg-gray-700 rounded-s"
           />
         )}
         <input
           ref={email}
           type="email"
           placeholder="Email Address"
-          className="p-4 my-4 w-full bg-neutral-800 rounded-s"
+          className="p-4 my-4 w-full bg-gray-700 rounded-s"
         />
         <input
           ref={password}
           type="password"
           placeholder="Password"
-          className="p-4 my-4 w-full  bg-neutral-800 rounded-s"
+          className="p-4 my-4 w-full  bg-gray-700 rounded-s"
         />
         <p className="text-red-500 font-normal text-lg text-center px-16">
           {errorMessage}
@@ -140,12 +137,12 @@ const Login = () => {
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <p
-          className="py-4 cursor-pointer text-center underline underline-offset-4"
+          className="py-4 cursor-pointer text-center"
           onClick={toggleSignInForm}
         >
           {isSignInForm
-            ? "New to Netflix? Sign Up Now"
-            : "Already registered? Sign in Now"}
+            ? "New to Netflix? Sign Up Now." 
+            : "Already registered? Sign in Now."}
         </p>
       </form>
     </div>
