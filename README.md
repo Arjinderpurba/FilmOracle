@@ -39,6 +39,12 @@
 - usePopularMovies Custom hook
 - useTopRatedMovies Custom hook
 - useUpcomingMovies Custom hook
+- GPT search feature
+- GPT search page
+- GPT search bar
+- (BONUS)Multilanguage feature in our app
+- Integrarte GPT APIs
+
 
 # Features
 - Login/Sign-up
