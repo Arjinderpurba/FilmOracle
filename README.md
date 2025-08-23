@@ -35,7 +35,10 @@
 - Build Movie Card
 - TMDB image CDN URL
 - Made Browse page amazing with Tailwind CSS
+- useNowPlayingMovies Custom hook
 - usePopularMovies Custom hook
+- useTopRatedMovies Custom hook
+- useUpcomingMovies Custom hook
 
 # Features
 - Login/Sign-up
