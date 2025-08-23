@@ -102,7 +102,7 @@ const Login = () => {
       </div>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="absolute w-3/12 p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80"
+        className="absolute w-3/12 p-12 bg-black my-40 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-70 bg-gradient-to-tr from-black"
       >
         <h1 className="font-bold text-3xl py-4">
           {isSignInForm ? "Sign In" : "Sign Up"}
@@ -112,26 +112,26 @@ const Login = () => {
             ref={name}
             type="name"
             placeholder="Full Name"
-            className="p-4 my-4 w-full bg-gray-700 rounded-s"
+            className="p-4 my-4 w-full bg-gray-800 rounded-md"
           />
         )}
         <input
           ref={email}
           type="email"
           placeholder="Email Address"
-          className="p-4 my-4 w-full bg-gray-700 rounded-s"
+          className="p-4 my-4 w-full bg-gray-800 rounded-md"
         />
         <input
           ref={password}
           type="password"
           placeholder="Password"
-          className="p-4 my-4 w-full  bg-gray-700 rounded-s"
+          className="p-4 my-4 w-full  bg-gray-800 rounded-md"
         />
         <p className="text-red-500 font-normal text-lg text-center px-16">
           {errorMessage}
         </p>
         <button
-          className="p-4 my-6 bg-red-600 w-full rounded-s"
+          className="p-4 my-6 bg-red-600 w-full rounded-md"
           onClick={handleButtonClick}
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
