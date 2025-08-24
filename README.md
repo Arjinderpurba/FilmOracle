@@ -44,9 +44,14 @@
 - GPT search bar
 - (BONUS)Multilanguage feature in our app
 - Integrated free puter api 
+- Reused movielist component to make momvie suggestion container
 - Implemented Memoization
+- added .env file
+- adding .env file to gitignore
 - Made Web app Responsive
 - Added Loader on signIn/signUp and GPT Movie Search
+- changed title from React app to Netflix GPT
+- changed react icon to netflix icon
 
 
  
