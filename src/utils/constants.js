@@ -26,4 +26,3 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "hindi", name: "हिन्दी" },
   { identifier: "spanish", name: "Española" },
 ];
-

@@ -53,7 +53,6 @@
 - changed title from React app to Netflix GPT
 - changed react icon to netflix icon
 
-
  
 # Features
 - Login/Sign-up
