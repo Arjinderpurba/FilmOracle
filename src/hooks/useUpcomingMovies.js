@@ -8,7 +8,7 @@ const useUpcomingMovies = () => {
     // fetch data from TMDB API and update store
     const dispatch = useDispatch();
 
-    // const UpcomingMovies = useSelector(store=> store.movies.UpcomingMovies)
+    const UpcomingMovies = useSelector(store=> store.movies.UpcomingMovies)
 
     const getUpcomingMovies = async () => {
     const data = await fetch('https://api.themoviedb.org/3/movie/upcoming?page=1', API_OPTIONS);
@@ -17,7 +17,7 @@ const useUpcomingMovies = () => {
     };
 
     useEffect(() => {
-        getUpcomingMovies();
+    !UpcomingMovies && getUpcomingMovies();
     },[]);
 }
 
