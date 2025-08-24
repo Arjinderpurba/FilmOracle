@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import lang from "../utils/languageConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../utils/constants";
 import { addGptMoviesResult } from "../utils/gptSlice";
+import Loader from "./Loader";
 
 /* global puter */
 
@@ -10,6 +11,7 @@ const GptSearchbar = () => {
   const dispatch = useDispatch();
   const langKey = useSelector((store) => store.config.lang);
   const searchText = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // search movie in TMDB
   const searchMovieTMDB = async (movie) => {
@@ -25,7 +27,9 @@ const GptSearchbar = () => {
   };
 
   const handleGptSearchClick = async () => {
-    console.log(searchText.current.value);
+    // console.log(searchText.current.value);
+
+    setIsLoading(true);
 
     // Puter.js API call for movie recommendations
     try {
@@ -57,11 +61,14 @@ const GptSearchbar = () => {
 
     } catch (error) {
       console.error("Error getting movie recommendations:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="pt-[35%] md:pt-[10%] flex justify-center">
+    <div className="pt-[45%] md:pt-[10%] flex justify-center">
+      {isLoading && <Loader />}
       <form
         className="w-full md:w-1/2 bg-black grid grid-cols-12"
         onSubmit={(e) => e.preventDefault()}
@@ -71,12 +78,14 @@ const GptSearchbar = () => {
           type="text"
           className="p-4 m-4 col-span-9"
           placeholder={lang[langKey].gptSearchPlaceholder}
+          disabled={isLoading}
         />
         <button
           className="m-4 col-span-3 py-2 px-4 bg-red-700 text-white rounded-md"
           onClick={handleGptSearchClick}
+          disabled={isLoading}
         >
-          {lang[langKey].search}
+          {isLoading ? "Searching..." : lang[langKey].search}
         </button>
       </form>
     </div>

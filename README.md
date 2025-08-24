@@ -44,6 +44,10 @@
 - GPT search bar
 - (BONUS)Multilanguage feature in our app
 - Integrated free puter api 
+- Implemented Memoization
+- Made Web app Responsive
+- Added Loader on signIn/signUp and GPT Movie Search
+
 
  
 # Features
