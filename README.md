@@ -43,9 +43,9 @@
 - GPT search page
 - GPT search bar
 - (BONUS)Multilanguage feature in our app
-- Integrarte GPT APIs
+- Integrated free puter api 
 
-
+ 
 # Features
 - Login/Sign-up
 - redirect to browse page

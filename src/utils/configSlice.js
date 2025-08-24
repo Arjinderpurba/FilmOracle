@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import reducer from "./moviesSlice";
 
 const configSlice = createSlice({
     name:"config",
