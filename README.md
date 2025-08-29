@@ -1,72 +1,50 @@
-Website Link - [FilmOracle](https://filmoracle.netlify.app)
+🎬 FilmOracle (Netflix GPT)
+FilmOracle is a Netflix-inspired web application built with React.js that integrates AI-powered movie recommendations using GPT. It features user authentication, personalized movie suggestions, and a seamless browsing experience powered by TMDB API.
 
-# Netflix GPT
+💻 Demo
 
-- Create React App
-- Configured TailwindCSS
-- Header
-- Routing of App
-- Login Form
-- Sign up form
-- Form Validation
-- useRef Hook
-- Firebase Setup
-- Deploying our App to production
-- create signUp user account
-- Implement Sign In user API
-- Created Redux Store with userSlice
-- Implemented Sign Out
-- update profile 
-- BugFix: Sign up user display name and profile picture update
-- BugFix: If user not logged in Redirect /browse to login and vice-versa
-- Fetch Movies from TMDB Movies 
-- Unsubscribed to the onAuthStateChanged callback
-- Add hardcodded values to the constants file
-- register for TMDB API and create a new app and get access token 
-- get data from TMDB now playing movies list API
-- created custom hook for now playing movies
-- create movie slice
-- updated the store with movies data
-- planning for main container and ssecondary trailer
-- fetch data for trailer video 
-- update store with trailer video data
-- Embedded the youtube video make it autoplay and mute
-- Tailwind classes to make main container look awesome
-- Build secondary component
-- Build Movie List
-- Build Movie Card
-- TMDB image CDN URL
-- Made Browse page amazing with Tailwind CSS
-- useNowPlayingMovies Custom hook
-- usePopularMovies Custom hook
-- useTopRatedMovies Custom hook
-- useUpcomingMovies Custom hook
-- GPT search feature
-- GPT search page
-- GPT search bar
-- (BONUS)Multilanguage feature in our app
-- Integrated free puter api 
-- Reused movielist component to make momvie suggestion container
-- Implemented Memoization
-- added .env file
-- adding .env file to gitignore
-- Made Web app Responsive
-- Added Loader on signIn/signUp and GPT Movie Search
-- changed title from React app to Netflix GPT
-- changed react icon to netflix icon
+A live demo of the application is available at:
+➡️ FilmOracle - [[Add your live demo link here](https://filmoracle.netlify.app)]
 
- 
-# Features
-- Login/Sign-up
-- redirect to browse page
+⚙️ Tech Stack 
 
-- Browse(after authentication)
-    - Header
-    - Main Movie
-        - Trailer in Background
-        - Title and Description
-        - MovieSuggestions
-            - MovieLists * N
-- Netflix GPT
-    - search bar
-    - movie suggestions
+React.js
+Redux Toolkit
+Firebase Authentication
+Tailwind CSS
+React Router
+TMDB API
+OpenAI GPT API
+🚀 Features
+
+🎥 TMDB Integration
+
+Fetches real-time movie data from The Movie Database (TMDB) API
+Displays now playing, popular, top-rated, and upcoming movies
+High-quality images from TMDB CDN
+🔐 User Authentication
+
+Secure login/signup with Firebase Authentication
+Profile management with display name and photo updates
+Protected routes (redirects based on authentication status)
+🤖 AI-Powered Recommendations
+
+Integrated GPT API for intelligent movie suggestions
+Multilingual search support
+Personalized recommendations based on user preferences
+⚡ Optimized Performance
+
+Memoization for improved performance
+Custom hooks for efficient data fetching
+Responsive design for all devices
+🎨 Modern UI/UX
+
+Beautiful Tailwind CSS styling
+Netflix-inspired design
+Dark mode interface
+Responsive layout for mobile, tablet, and desktop
+🔍 Smart Search
+
+GPT-enhanced search functionality
+Multi-language support
+Real-time search suggestions
