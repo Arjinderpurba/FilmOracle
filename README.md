@@ -4,7 +4,7 @@ FilmOracle is a Netflix-inspired web application built with React.js that integr
 💻 Demo
 
 A live demo of the application is available at:
-➡️ FilmOracle - [[Add your live demo link here](https://filmoracle.netlify.app)]
+➡️ FilmOracle - [(https://filmoracle.netlify.app)]
 
 ⚙️ Tech Stack 
 
