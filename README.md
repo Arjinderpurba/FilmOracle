@@ -8,12 +8,12 @@ A live demo of the application is available at:
 
 ⚙️ Tech Stack 
 
-React.js
-Redux Toolkit
-Firebase Authentication
-Tailwind CSS
-React Router
-TMDB API
+React.js,
+Redux Toolkit,
+Firebase Authentication,
+Tailwind CSS,
+React Router,
+TMDB API,
 OpenAI GPT API
 
 🚀 Features
