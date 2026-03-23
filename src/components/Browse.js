@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 
 const Browse = () => {
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  
+  // ALL hooks must be called
   useNowPlayingMovies();
   usePopularMovies();
   useTopRatedMovies();
@@ -23,21 +25,10 @@ const Browse = () => {
         <GptSearch />
       ) : (
         <>
-          {" "}
           <MainContainer />
           <SecondaryContainer />
         </>
       )}
-
-      {/* 
-        MainContainer
-          - VideoBackground
-          - VideoTitle
-        SecondaryContainer
-          - MovieList * n
-            - cards * n
-      
-      */}
     </div>
   );
 };
