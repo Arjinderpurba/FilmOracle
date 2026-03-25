@@ -15,7 +15,7 @@ const MovieCard = ({ posterPath, movieId, title }) => {
       >
         <div className="relative overflow-hidden rounded-lg">
           <img 
-            className="rounded-lg transition-transform duration-300 group-hover:scale-105" 
+            className="rounded-lg transition-transform duration-300 group-hover:scale-105 w-full h-auto" 
             alt={title} 
             src={IMG_CDN_URL + posterPath}
           />
@@ -26,7 +26,7 @@ const MovieCard = ({ posterPath, movieId, title }) => {
             </div>
           </div>
         </div>
-        <p className="text-white text-sm mt-2 truncate transition-colors duration-300 group-hover:text-red-600">
+        <p className="text-white text-sm mt-2 truncate transition-colors duration-300 group-hover:text-red-500">
           {title}
         </p>
       </div>

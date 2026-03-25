@@ -12,23 +12,47 @@ import { useSelector } from "react-redux";
 const Browse = () => {
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
   
-  // ALL hooks must be called
   useNowPlayingMovies();
   usePopularMovies();
   useTopRatedMovies();
   useUpcomingMovies();
 
-  return (
-    <div>
-      <Header />
-      {showGptSearch ? (
+  if (showGptSearch) {
+    return (
+      <>
+        <Header />
         <GptSearch />
-      ) : (
-        <>
-          <MainContainer />
-          <SecondaryContainer />
-        </>
-      )}
+      </>
+    );
+  }
+
+  return (
+    <div className="bg-black min-h-screen flex flex-col">
+      <Header />
+      <div className="flex-1">
+        <MainContainer />
+        <SecondaryContainer />
+      </div>
+      
+      {/* Footer */}
+      <footer className="bg-black py-12 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4">
+            <p className="text-gray-300 text-lg md:text-xl font-light tracking-wide">
+              "Let AI guide you to your next favorite film"
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 text-xs text-gray-500">
+              <span>FilmOracle</span>
+              <span>•</span>
+              <span>Powered by GPT & TMDB</span>
+              <span>•</span>
+              <span>AI-Powered Recommendations</span>
+              <span>•</span>
+              <span>© 2024</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

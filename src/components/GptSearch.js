@@ -1,34 +1,55 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GptMovieSuggestions from "./GptMovieSuggestions";
 import GptSearchbar from "./GptSearchbar";
 import { BGIMG } from "../utils/constants";
 
 const GptSearch = () => {
+  useEffect(() => {
+    document.body.classList.add('gpt-active');
+    
+    return () => {
+      document.body.classList.remove('gpt-active');
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen relative">
-      {/* Background with Overlay */}
+    <>
+      {/* Fixed Background */}
       <div className="fixed inset-0 -z-10">
         <img 
-          className="h-full w-full object-cover" 
+          className="w-full h-full object-cover" 
           src={BGIMG} 
           alt="Background" 
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black"></div>
+        <div className="absolute inset-0 bg-black/70"></div>
       </div>
 
-      {/* Main Content */}
-      <div className="relative">
-        <GptSearchbar />
+      {/* Scrollable Content */}
+      <div className="relative z-10">
+        <div className="pt-20 pb-8">
+          <GptSearchbar />
+        </div>
         <GptMovieSuggestions />
+        <footer className="bg-black/80 backdrop-blur-md py-6 border-t border-gray-800/50 mt-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center space-y-3">
+              <p className="text-gray-300 text-lg md:text-xl font-light tracking-wide">
+                "Let AI guide you to your next favorite film"
+              </p>
+              <div className="flex flex-wrap justify-center gap-3 text-xs text-gray-500">
+                <span>FilmOracle</span>
+                <span>•</span>
+                <span>Powered by GPT & TMDB</span>
+                <span>•</span>
+                <span>AI-Powered Recommendations</span>
+                <span>•</span>
+                <span>© 2024</span>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
-
-      {/* Footer Note */}
-      <div className="absolute bottom-4 left-0 right-0 text-center">
-        <p className="text-gray-500 text-sm px-4">
-          Powered by AI • Results may vary • Click any movie for details
-        </p>
-      </div>
-    </div>
+    </>
   );
 };
 

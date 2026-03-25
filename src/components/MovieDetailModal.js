@@ -13,21 +13,6 @@ const MovieDetailModal = ({ movieId, onClose }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await Promise.all([fetchMovieDetails(), fetchMovieTrailer()]);
-      } catch (error) {
-        console.error("Error fetching movie data:", error);
-        setLoading(false);
-      }
-    };
-
-    if (movieId) {
-      fetchData();
-    }
-  }, [movieId]);
-
   const fetchMovieDetails = async () => {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
@@ -56,6 +41,22 @@ const MovieDetailModal = ({ movieId, onClose }) => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await Promise.all([fetchMovieDetails(), fetchMovieTrailer()]);
+      } catch (error) {
+        console.error("Error fetching movie data:", error);
+        setLoading(false);
+      }
+    };
+
+    if (movieId) {
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieId]);
+
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -64,7 +65,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600"></div>
           <p className="text-white text-lg font-medium">Loading movie details...</p>
@@ -75,19 +76,19 @@ const MovieDetailModal = ({ movieId, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 overflow-y-auto scroll-smooth"
+      className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 overflow-y-auto scroll-smooth"
       onClick={handleBackgroundClick}
     >
       <div className="min-h-screen flex items-start justify-center p-2 sm:p-3">
         <div 
-          className="bg-gray-900/95 backdrop-blur-md rounded-xl w-full max-w-6xl my-4 md:my-8 max-h-[95vh] flex flex-col overflow-hidden border border-gray-800 shadow-2xl"
+          className="bg-gradient-to-b from-gray-900 to-black rounded-xl w-full max-w-6xl my-4 md:my-8 max-h-[95vh] flex flex-col overflow-hidden border border-gray-800 shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
-          <div className="sticky top-0 z-30 flex justify-end p-3 sm:p-4 bg-gradient-to-b from-gray-900/90 via-gray-900/80 to-transparent">
+          <div className="sticky top-0 z-30 flex justify-end p-3 sm:p-4 bg-gradient-to-b from-gray-900 via-gray-900/95 to-transparent">
             <button 
               onClick={onClose}
-              className="text-white bg-gray-800/80 hover:bg-gray-700/80 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 backdrop-blur-sm"
+              className="text-white bg-gray-800/90 hover:bg-red-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 backdrop-blur-sm"
               aria-label="Close modal"
             >
               <span className="text-lg sm:text-xl">✕</span>
@@ -102,7 +103,6 @@ const MovieDetailModal = ({ movieId, onClose }) => {
               <div className="relative h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 bg-gradient-to-br from-gray-900 to-black overflow-hidden">
                 {trailerKey ? (
                   <>
-                    {/* YouTube iframe with minimal controls */}
                     <iframe
                       className="absolute inset-0 w-full h-full"
                       src={`https://www.youtube.com/embed/${trailerKey}?controls=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&fs=0&disablekb=1&playsinline=1`}
@@ -124,7 +124,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
                   </>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-full h-full flex items-center justify-center bg-gray-900">
                     <div className="text-center text-gray-400">
                       <div className="text-4xl mb-3">📽️</div>
                       <p className="text-sm sm:text-base">No media available</p>
@@ -141,7 +141,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                 {movieDetails?.poster_path && (
                   <div className="flex-shrink-0">
                     <img
-                      className="w-32 h-48 sm:w-40 sm:h-60 lg:w-48 lg:h-72 object-cover rounded-lg shadow-lg mx-auto sm:mx-0"
+                      className="w-32 h-48 sm:w-40 sm:h-60 lg:w-48 lg:h-72 object-cover rounded-lg shadow-lg mx-auto sm:mx-0 border border-gray-700"
                       src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
                       alt={movieDetails.title}
                       loading="lazy"
@@ -161,7 +161,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                   {/* Rating & Runtime - Horizontal on small screens */}
                   <div className="flex items-center gap-4 mt-4 lg:mt-6">
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-yellow-500/20 rounded-lg">
+                      <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gray-800 rounded-lg">
                         <span className="text-yellow-400 text-lg sm:text-xl lg:text-2xl">⭐</span>
                       </div>
                       <div>
@@ -197,7 +197,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                         {movieDetails.genres.slice(0, 4).map(genre => (
                           <span 
                             key={genre.id}
-                            className="px-3 py-1.5 bg-gray-800/60 text-gray-200 rounded-full text-xs sm:text-sm lg:text-base font-medium border border-gray-700/50"
+                            className="px-3 py-1.5 bg-gray-800 text-gray-200 rounded-full text-xs sm:text-sm lg:text-base font-medium border border-gray-700"
                           >
                             {genre.name}
                           </span>
@@ -215,7 +215,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                 <span className="text-red-500">▸</span>
                 Overview
               </h3>
-              <div className="bg-gray-800/30 rounded-lg lg:rounded-xl p-4 lg:p-6 border border-gray-700/50">
+              <div className="bg-gray-800/50 rounded-lg lg:rounded-xl p-4 lg:p-6 border border-gray-700">
                 <p className="text-gray-200 leading-relaxed text-sm sm:text-base lg:text-lg">
                   {movieDetails?.overview || 'No overview available.'}
                 </p>
@@ -227,7 +227,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                 {/* Release Date */}
                 {movieDetails?.release_date && (
-                  <div className="flex items-start gap-3 p-3 sm:p-4 lg:p-5 bg-gray-800/30 rounded-lg lg:rounded-xl border border-gray-700/30">
+                  <div className="flex items-start gap-3 p-3 sm:p-4 lg:p-5 bg-gray-800/50 rounded-lg lg:rounded-xl border border-gray-700">
                     <div className="flex-shrink-0">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gray-800 rounded-lg lg:rounded-xl flex items-center justify-center">
                         <span className="text-gray-300 text-sm sm:text-base lg:text-lg">📅</span>
@@ -248,7 +248,7 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                 
                 {/* Status */}
                 {movieDetails?.status && (
-                  <div className="flex items-start gap-3 p-3 sm:p-4 lg:p-5 bg-gray-800/30 rounded-lg lg:rounded-xl border border-gray-700/30">
+                  <div className="flex items-start gap-3 p-3 sm:p-4 lg:p-5 bg-gray-800/50 rounded-lg lg:rounded-xl border border-gray-700">
                     <div className="flex-shrink-0">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gray-800 rounded-lg lg:rounded-xl flex items-center justify-center">
                         <span className="text-gray-300 text-sm sm:text-base lg:text-lg">📊</span>
@@ -269,11 +269,10 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                   <div className="flex flex-wrap gap-3 lg:gap-4">
                     {movieDetails.production_companies.slice(0, 3).map(company => (
                       company.logo_path ? (
-                        // SHOW LOGO ONLY - No text
                         <div 
                           key={company.id}
-                          className="p-2 sm:p-3 bg-white rounded-lg lg:rounded-xl border border-gray-700/30 flex items-center justify-center"
-                          title={company.name} /* Tooltip shows on hover */
+                          className="p-2 sm:p-3 bg-gray-800 rounded-lg lg:rounded-xl border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-colors"
+                          title={company.name}
                         >
                           <img
                             className="h-8 sm:h-10 lg:h-12 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[180px]"
@@ -283,10 +282,9 @@ const MovieDetailModal = ({ movieId, onClose }) => {
                           />
                         </div>
                       ) : (
-                        // SHOW TEXT ONLY - When no logo exists
                         <div 
                           key={company.id}
-                          className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-800/50 rounded-lg lg:rounded-xl border border-gray-700/30 flex items-center justify-center"
+                          className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 rounded-lg lg:rounded-xl border border-gray-700 flex items-center justify-center"
                         >
                           <p className="text-white text-xs sm:text-sm lg:text-base text-center">
                             {company.name}

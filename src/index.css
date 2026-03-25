@@ -42,3 +42,32 @@
       scrollbar-width: none;  /* Firefox */
     }
 }
+
+/* Fix white background on overscroll */
+html, body {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  background-color: black;
+  min-height: 100vh;
+}
+
+/* Prevent white background on overscroll in WebKit browsers (Chrome, Safari) */
+body {
+  background-color: black;
+}
+
+/* For Firefox */
+html {
+  background-color: black;
+}
+
+/* Remove any black background when GPT is active */
+body.gpt-active,
+body.gpt-active #root {
+  background-color: transparent !important;
+}
