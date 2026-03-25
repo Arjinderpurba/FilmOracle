@@ -8,6 +8,7 @@ import useTopRatedMovies from "../hooks/useTopRatedMovies";
 import useUpcomingMovies from "../hooks/useUpcomingMovies";
 import GptSearch from "./GptSearch";
 import { useSelector } from "react-redux";
+import { BGIMG } from "../utils/constants";
 
 const Browse = () => {
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
@@ -27,32 +28,42 @@ const Browse = () => {
   }
 
   return (
-    <div className="bg-black min-h-screen flex flex-col">
-      <Header />
-      <div className="flex-1">
+    <div className="relative min-h-screen">
+      {/* Fixed Background Image with Light Overlay - So background shows through */}
+      <div className="fixed inset-0 -z-10">
+        <img
+          className="w-full h-full object-cover"
+          src={BGIMG}
+          alt="Background"
+        />
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+
+      <div className="relative z-10">
+        <Header />
         <MainContainer />
         <SecondaryContainer />
-      </div>
-      
-      {/* Footer */}
-      <footer className="bg-black py-12 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4">
-            <p className="text-gray-300 text-lg md:text-xl font-light tracking-wide">
-              "Let AI guide you to your next favorite film"
-            </p>
-            <div className="flex flex-wrap justify-center gap-3 text-xs text-gray-500">
-              <span>FilmOracle</span>
-              <span>•</span>
-              <span>Powered by GPT & TMDB</span>
-              <span>•</span>
-              <span>AI-Powered Recommendations</span>
-              <span>•</span>
-              <span>© 2026</span>
+        
+        {/* Footer */}
+        <footer className="bg-black/60 backdrop-blur-md py-6 border-t border-gray-800/50 mt-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center space-y-3">
+              <p className="text-gray-300 text-lg md:text-xl font-light tracking-wide">
+                "Let AI guide you to your next favorite film"
+              </p>
+              <div className="flex flex-wrap justify-center gap-3 text-xs text-gray-500">
+                <span>FilmOracle</span>
+                <span>•</span>
+                <span>Powered by GPT & TMDB</span>
+                <span>•</span>
+                <span>AI-Powered Recommendations</span>
+                <span>•</span>
+                <span>© 2024</span>
+              </div>
             </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
     </div>
   );
 };

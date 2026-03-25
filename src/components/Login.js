@@ -24,7 +24,6 @@ const Login = () => {
   const password = useRef(null);
 
   const handleButtonClick = () => {
-    // Validate Form Data
     const message = checkValidData(
       email.current.value,
       password.current.value,
@@ -35,9 +34,7 @@ const Login = () => {
 
     setIsLoading(true);
 
-    // Sign In / Sign Up Logic
     if (!isSignInForm) {
-      // SignUp logic
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
@@ -71,7 +68,6 @@ const Login = () => {
           setIsLoading(false);
         });
     } else {
-      // SignIn Logic
       signInWithEmailAndPassword(
         auth,
         email.current.value,
@@ -104,35 +100,35 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen relative">
-      <Header />
-      
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 -z-10">
+    <div className="relative min-h-screen bg-transparent">
+      {/* Fixed Background Image with Dark Overlay - Same as GPT Page */}
+      <div className="fixed inset-0 -z-10">
         <img
-          className="h-full w-full object-cover"
+          className="w-full h-full object-cover"
           src={BGIMG}
           alt="Background"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/70 to-black"></div>
+        <div className="absolute inset-0 bg-black/70"></div>
       </div>
 
+      <Header />
+      
       {/* Loader Overlay */}
       {isLoading && <Loader />}
 
       {/* Main Content */}
-      <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 py-8 sm:py-12">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-3 sm:px-4 py-8 sm:py-12">
         {/* Login Form Container */}
         <div 
-          className="w-full max-w-md bg-black/80 backdrop-blur-sm rounded-xl border border-gray-800 shadow-2xl overflow-hidden"
+          className="w-full max-w-md bg-black/80 backdrop-blur-sm rounded-xl border border-gray-800 shadow-2xl overflow-hidden mx-3 sm:mx-4"
           onKeyPress={handleKeyPress}
         >
           {/* Form Header */}
-          <div className="p-6 sm:p-8 text-center border-b border-gray-800">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+          <div className="p-4 sm:p-6 md:p-8 text-center border-b border-gray-800">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
               {isSignInForm ? "Welcome Back" : "Join FilmOracle"}
             </h1>
-            <p className="text-gray-400 text-sm sm:text-base">
+            <p className="text-gray-400 text-xs sm:text-sm md:text-base">
               {isSignInForm 
                 ? "Sign in to continue your cinematic journey" 
                 : "Create an account for personalized recommendations"}
@@ -140,37 +136,37 @@ const Login = () => {
           </div>
 
           {/* Form Body */}
-          <form onSubmit={(e) => e.preventDefault()} className="p-6 sm:p-8">
+          <form onSubmit={(e) => e.preventDefault()} className="p-4 sm:p-6 md:p-8">
             {!isSignInForm && (
-              <div className="mb-4">
-                <label className="block text-gray-300 text-sm font-medium mb-2">
+              <div className="mb-3 sm:mb-4">
+                <label className="block text-gray-300 text-xs sm:text-sm font-medium mb-1 sm:mb-2">
                   Full Name
                 </label>
                 <input
                   ref={name}
                   type="text"
                   placeholder="Enter your full name"
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all text-sm sm:text-base"
                   disabled={isLoading}
                 />
               </div>
             )}
 
-            <div className="mb-4">
-              <label className="block text-gray-300 text-sm font-medium mb-2">
+            <div className="mb-3 sm:mb-4">
+              <label className="block text-gray-300 text-xs sm:text-sm font-medium mb-1 sm:mb-2">
                 Email Address
               </label>
               <input
                 ref={email}
                 type="email"
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all text-sm sm:text-base"
                 disabled={isLoading}
               />
             </div>
 
-            <div className="mb-6">
-              <label className="block text-gray-300 text-sm font-medium mb-2">
+            <div className="mb-4 sm:mb-6">
+              <label className="block text-gray-300 text-xs sm:text-sm font-medium mb-1 sm:mb-2">
                 Password
               </label>
               <div className="relative">
@@ -178,27 +174,27 @@ const Login = () => {
                   ref={password}
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all pr-12"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all pr-10 sm:pr-12 text-sm sm:text-base"
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors text-sm sm:text-base"
                   disabled={isLoading}
                 >
                   {showPassword ? "🙈" : "👁️"}
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-[10px] sm:text-xs text-gray-500 mt-1 sm:mt-2">
                 Must be at least 6 characters
               </p>
             </div>
 
             {/* Error Message */}
             {errorMessage && (
-              <div className="mb-6 p-3 bg-red-900/30 border border-red-800 rounded-lg">
-                <p className="text-red-400 text-sm text-center">{errorMessage}</p>
+              <div className="mb-4 sm:mb-6 p-2 sm:p-3 bg-red-900/30 border border-red-800 rounded-lg">
+                <p className="text-red-400 text-xs sm:text-sm text-center">{errorMessage}</p>
               </div>
             )}
 
@@ -207,11 +203,11 @@ const Login = () => {
               type="button"
               onClick={handleButtonClick}
               disabled={isLoading}
-              className="w-full py-3.5 bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+              className="w-full py-2.5 sm:py-3.5 bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               {isLoading ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
                   <span>Processing...</span>
                 </>
               ) : (
@@ -223,8 +219,8 @@ const Login = () => {
             </button>
 
             {/* Toggle Form */}
-            <div className="mt-6 pt-6 border-t border-gray-800 text-center">
-              <p className="text-gray-400">
+            <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-800 text-center">
+              <p className="text-gray-400 text-xs sm:text-sm">
                 {isSignInForm ? "New to FilmOracle?" : "Already have an account?"}
                 <button
                   type="button"
@@ -238,8 +234,8 @@ const Login = () => {
             </div>
 
             {/* Quick Demo Info */}
-            <div className="mt-6 p-3 bg-gray-900/50 rounded-lg border border-gray-800">
-              <p className="text-xs text-gray-400 text-center">
+            <div className="mt-4 sm:mt-6 p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-800">
+              <p className="text-[10px] sm:text-xs text-gray-400 text-center">
                 <span className="font-medium">Demo:</span> Use ubanto@gmail.com / Ubanto1234@
               </p>
             </div>
@@ -248,8 +244,8 @@ const Login = () => {
       </div>
 
       {/* Footer Note */}
-      <div className="absolute bottom-4 left-0 right-0 text-center">
-        <p className="text-gray-500 text-sm">
+      <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 text-center px-2">
+        <p className="text-gray-500 text-[10px] sm:text-xs">
           By signing in, you agree to our Terms of Service and Privacy Policy
         </p>
       </div>

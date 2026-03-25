@@ -17,6 +17,7 @@ const Header = () => {
 
   // State for controlling header visibility
   const [isVisible, setIsVisible] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleSignOut = () => {
     signOut(auth)
@@ -63,6 +64,7 @@ const Header = () => {
           } 
           else if (currentScrollY > lastScrollY && currentScrollY > 100) {
             setIsVisible(false);
+            setMobileMenuOpen(false);
           }
           
           lastScrollY = currentScrollY;
@@ -78,6 +80,7 @@ const Header = () => {
 
   const handleGptSearchClick = () => {
     dispatch(toggleGptSearchView());
+    setMobileMenuOpen(false);
   };
 
   const handleLanguageChange = (e) => {
@@ -86,29 +89,120 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full px-4 sm:px-6 md:px-8 py-2 md:py-3 bg-gradient-to-b from-black via-black/95 to-transparent z-50 flex flex-col md:flex-row justify-between items-center transition-all duration-300 ease-out ${
+      className={`fixed top-0 left-0 right-0 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-2 md:py-3 bg-gradient-to-b from-black via-black/95 to-transparent z-50 transition-all duration-300 ease-out ${
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
     >
-      {/* Logo */}
-      <div className="flex-shrink-0 mb-2 md:mb-0">
-        <img
-          className="w-28 h-auto sm:w-32 md:w-36 lg:w-40 cursor-pointer transition-transform duration-200 hover:scale-105"
-          src={LOGO}
-          alt="FilmOracle Logo"
-          onClick={() => navigate("/browse")}
-        />
+      <div className="flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex-shrink-0">
+          <img
+            className="w-24 sm:w-28 md:w-32 lg:w-36 cursor-pointer transition-transform duration-200 hover:scale-105"
+            src={LOGO}
+            alt="FilmOracle Logo"
+            onClick={() => navigate("/browse")}
+          />
+        </div>
+
+        {/* Mobile Menu Button */}
+        {user && (
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-white p-2 focus:outline-none"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {mobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        )}
+
+        {/* Desktop Menu */}
+        {user && (
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            {/* Language Selector - ONLY shows on GPT Search page */}
+            {showGptSearch && (
+              <div className="relative">
+                <select
+                  value={currentLang}
+                  onChange={handleLanguageChange}
+                  className="appearance-none pl-3 pr-8 py-1.5 lg:pl-4 lg:pr-10 lg:py-2 bg-gray-900/80 backdrop-blur-sm text-white font-medium rounded-lg text-xs lg:text-sm border border-gray-700 hover:border-gray-600 transition-all focus:outline-none focus:ring-2 focus:ring-red-600 cursor-pointer"
+                >
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <option key={lang.identifier} value={lang.identifier}>
+                      {lang.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            )}
+
+            {/* GPT Search Button */}
+            <button
+              className="py-1.5 px-3 lg:py-2 lg:px-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all duration-200 text-xs lg:text-sm border border-gray-700 hover:border-gray-600 active:scale-95 whitespace-nowrap flex items-center gap-1 lg:gap-2"
+              onClick={handleGptSearchClick}
+            >
+              {showGptSearch ? (
+                <>
+                  <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  <span className="hidden sm:inline">Home</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span className="hidden sm:inline">AI Search</span>
+                </>
+              )}
+            </button>
+
+            {/* User Profile */}
+            <div className="flex items-center gap-2 lg:gap-3">
+              <img
+                className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full border-2 border-gray-700 object-cover hover:border-red-600 transition-colors"
+                alt="User Profile"
+                src={user?.photoURL || "https://api.dicebear.com/7.x/avataaars/svg?seed=" + user?.email}
+                onError={(e) => {
+                  e.target.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=" + user?.email;
+                }}
+              />
+              
+              {/* Sign Out Button */}
+              <button
+                onClick={handleSignOut}
+                className="py-1.5 px-3 lg:py-2 lg:px-4 bg-gradient-to-r from-red-700 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-500 transition-all duration-200 text-xs lg:text-sm border border-red-800 hover:border-red-700 active:scale-95 whitespace-nowrap flex items-center gap-1 lg:gap-2"
+              >
+                <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span className="hidden sm:inline">Sign Out</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      {user && (
-        <div className="flex flex-wrap justify-center md:justify-end items-center gap-2 sm:gap-3 w-full md:w-auto">
-          {/* Language Selector - ONLY shows on GPT Search page */}
+      {/* Mobile Menu */}
+      {user && mobileMenuOpen && (
+        <div className="md:hidden mt-3 pt-3 border-t border-gray-800 space-y-2 pb-2">
+          {/* Language Selector */}
           {showGptSearch && (
-            <div className="relative">
+            <div className="relative w-full mb-2">
               <select
                 value={currentLang}
                 onChange={handleLanguageChange}
-                className="appearance-none pl-4 pr-10 py-2 bg-gray-900/80 backdrop-blur-sm text-white font-medium rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all focus:outline-none focus:ring-2 focus:ring-red-600 cursor-pointer"
+                className="w-full appearance-none pl-4 pr-10 py-2 bg-gray-900/80 backdrop-blur-sm text-white font-medium rounded-lg text-sm border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600 cursor-pointer"
               >
                 {SUPPORTED_LANGUAGES.map((lang) => (
                   <option key={lang.identifier} value={lang.identifier}>
@@ -126,7 +220,7 @@ const Header = () => {
 
           {/* GPT Search Button */}
           <button
-            className="py-2 px-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all duration-200 text-sm border border-gray-700 hover:border-gray-600 active:scale-95 whitespace-nowrap flex items-center gap-2"
+            className="w-full py-2 px-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all duration-200 text-sm border border-gray-700 active:scale-95 flex items-center justify-center gap-2"
             onClick={handleGptSearchClick}
           >
             {showGptSearch ? (
@@ -134,39 +228,39 @@ const Header = () => {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                <span className="hidden sm:inline">Home</span>
+                <span>Home</span>
               </>
             ) : (
               <>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span className="hidden sm:inline">AI Search</span>
+                <span>AI Search</span>
               </>
             )}
           </button>
 
-          {/* User Profile */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Sign Out Button */}
+          <button
+            onClick={handleSignOut}
+            className="w-full py-2 px-4 bg-gradient-to-r from-red-700 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-500 transition-all duration-200 text-sm border border-red-800 active:scale-95 flex items-center justify-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span>Sign Out</span>
+          </button>
+
+          {/* User Info */}
+          <div className="flex items-center gap-3 pt-2">
             <img
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-700 object-cover hover:border-red-600 transition-colors"
+              className="w-10 h-10 rounded-full border-2 border-gray-700 object-cover"
               alt="User Profile"
               src={user?.photoURL || "https://api.dicebear.com/7.x/avataaars/svg?seed=" + user?.email}
-              onError={(e) => {
-                e.target.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=" + user?.email;
-              }}
             />
-            
-            {/* Sign Out Button */}
-            <button
-              onClick={handleSignOut}
-              className="py-2 px-4 bg-gradient-to-r from-red-700 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-500 transition-all duration-200 text-sm border border-red-800 hover:border-red-700 active:scale-95 whitespace-nowrap flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              <span className="hidden sm:inline">Sign Out</span>
-            </button>
+            <div className="text-white text-sm truncate flex-1">
+              {user?.displayName || user?.email}
+            </div>
           </div>
         </div>
       )}
