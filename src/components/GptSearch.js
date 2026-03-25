@@ -6,15 +6,14 @@ import { BGIMG } from "../utils/constants";
 const GptSearch = () => {
   useEffect(() => {
     document.body.classList.add('gpt-active');
-    
     return () => {
       document.body.classList.remove('gpt-active');
     };
   }, []);
 
   return (
-    <>
-      {/* Fixed Background */}
+    <div className="relative min-h-screen bg-transparent flex flex-col">
+      {/* Background Image with Dark Overlay */}
       <div className="fixed inset-0 -z-10">
         <img 
           className="w-full h-full object-cover" 
@@ -24,12 +23,17 @@ const GptSearch = () => {
         <div className="absolute inset-0 bg-black/70"></div>
       </div>
 
-      {/* Scrollable Content */}
-      <div className="relative z-10">
-        <div className="pt-20 pb-8">
-          <GptSearchbar />
+      {/* Main Content - Flex Column to Push Footer to Bottom */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Search Section */}
+        <div className="flex-1">
+          <div className="pt-20 pb-8">
+            <GptSearchbar />
+          </div>
+          <GptMovieSuggestions />
         </div>
-        <GptMovieSuggestions />
+
+        {/* Footer - Sticks to Bottom */}
         <footer className="bg-black/80 backdrop-blur-md py-6 border-t border-gray-800/50 mt-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-3">
@@ -49,7 +53,7 @@ const GptSearch = () => {
           </div>
         </footer>
       </div>
-    </>
+    </div>
   );
 };
 

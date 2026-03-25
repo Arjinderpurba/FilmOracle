@@ -13,10 +13,10 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  const currentLang = useSelector((store) => store.config.lang);
 
   // State for controlling header visibility
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleSignOut = () => {
     signOut(auth)
@@ -48,7 +48,7 @@ const Header = () => {
     return () => unsubscribe();
   }, [dispatch, navigate]);
 
-  // Scroll effect - optimized
+  // Scroll effect
   useEffect(() => {
     let lastScrollY = window.scrollY;
     let ticking = false;
@@ -58,11 +58,9 @@ const Header = () => {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
           
-          // Show header at top or when scrolling up
           if (currentScrollY < 100 || currentScrollY < lastScrollY) {
             setIsVisible(true);
           } 
-          // Hide when scrolling down past threshold
           else if (currentScrollY > lastScrollY && currentScrollY > 100) {
             setIsVisible(false);
           }
@@ -92,7 +90,7 @@ const Header = () => {
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
     >
-      {/* Logo - Responsive sizing */}
+      {/* Logo */}
       <div className="flex-shrink-0 mb-2 md:mb-0">
         <img
           className="w-28 h-auto sm:w-32 md:w-36 lg:w-40 cursor-pointer transition-transform duration-200 hover:scale-105"
@@ -104,43 +102,54 @@ const Header = () => {
 
       {user && (
         <div className="flex flex-wrap justify-center md:justify-end items-center gap-2 sm:gap-3 w-full md:w-auto">
-          {/* Language Selector - Responsive */}
+          {/* Language Selector - ONLY shows on GPT Search page */}
           {showGptSearch && (
-            <select
-              className="py-1.5 sm:py-2 px-3 sm:px-4 bg-gray-900/90 backdrop-blur-sm text-white font-semibold rounded-lg text-sm sm:text-base border border-gray-700 hover:border-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-600"
-              onChange={handleLanguageChange}
-            >
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <option key={lang.identifier} value={lang.identifier}>
-                  {lang.name}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                value={currentLang}
+                onChange={handleLanguageChange}
+                className="appearance-none pl-4 pr-10 py-2 bg-gray-900/80 backdrop-blur-sm text-white font-medium rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all focus:outline-none focus:ring-2 focus:ring-red-600 cursor-pointer"
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.identifier} value={lang.identifier}>
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
           )}
 
-          {/* GPT Search Button - Responsive */}
+          {/* GPT Search Button */}
           <button
-            className="py-1.5 sm:py-2 px-3 sm:px-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all duration-200 text-sm sm:text-base border border-gray-700 hover:border-gray-600 active:scale-95 whitespace-nowrap"
+            className="py-2 px-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all duration-200 text-sm border border-gray-700 hover:border-gray-600 active:scale-95 whitespace-nowrap flex items-center gap-2"
             onClick={handleGptSearchClick}
           >
             {showGptSearch ? (
-              <span className="flex items-center gap-1.5">
-                <span>🏠</span>
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
                 <span className="hidden sm:inline">Home</span>
-              </span>
+              </>
             ) : (
-              <span className="flex items-center gap-1.5">
-                <span>🤖</span>
-                <span className="hidden sm:inline">GPT Search</span>
-                <span className="sm:hidden">GPT</span>
-              </span>
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span className="hidden sm:inline">AI Search</span>
+              </>
             )}
           </button>
 
-          {/* User Profile - Responsive */}
+          {/* User Profile */}
           <div className="flex items-center gap-2 sm:gap-3">
             <img
-              className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-700 object-cover hover:border-red-600 transition-colors"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-gray-700 object-cover hover:border-red-600 transition-colors"
               alt="User Profile"
               src={user?.photoURL || "https://api.dicebear.com/7.x/avataaars/svg?seed=" + user?.email}
               onError={(e) => {
@@ -148,16 +157,15 @@ const Header = () => {
               }}
             />
             
-            {/* Sign Out Button - Responsive */}
+            {/* Sign Out Button */}
             <button
               onClick={handleSignOut}
-              className="py-1.5 sm:py-2 px-3 sm:px-4 bg-gradient-to-r from-red-700 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-500 transition-all duration-200 text-sm sm:text-base border border-red-800 hover:border-red-700 active:scale-95 whitespace-nowrap"
+              className="py-2 px-4 bg-gradient-to-r from-red-700 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-500 transition-all duration-200 text-sm border border-red-800 hover:border-red-700 active:scale-95 whitespace-nowrap flex items-center gap-2"
             >
-              <span className="flex items-center gap-1.5">
-                <span className="hidden sm:inline">Sign Out</span>
-                <span className="sm:hidden">Logout</span>
-                <span>→</span>
-              </span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span className="hidden sm:inline">Sign Out</span>
             </button>
           </div>
         </div>
