@@ -10,12 +10,12 @@ const MovieCard = ({ posterPath, movieId, title }) => {
   return (
     <>
       <div 
-        className="w-36 md:w-48 pr-4 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+        className="w-36 md:w-48 pr-4 cursor-pointer group"
         onClick={() => setShowModal(true)}
       >
-        <div className="relative group">
+        <div className="relative overflow-hidden rounded-lg">
           <img 
-            className="rounded-lg" 
+            className="rounded-lg transition-transform duration-300 group-hover:scale-105" 
             alt={title} 
             src={IMG_CDN_URL + posterPath}
           />
@@ -26,7 +26,9 @@ const MovieCard = ({ posterPath, movieId, title }) => {
             </div>
           </div>
         </div>
-        <p className="text-white text-sm mt-2 truncate">{title}</p>
+        <p className="text-white text-sm mt-2 truncate transition-colors duration-300 group-hover:text-red-600">
+          {title}
+        </p>
       </div>
 
       {showModal && (
